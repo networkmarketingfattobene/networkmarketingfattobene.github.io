@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title or "Productly" }}</title>
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicons/favicon.png">
+    
+    <!-- Stylesheets -->
+    <link href="/assets/css/theme.min.css" rel="stylesheet" />
+</head>
+<body>
+    {{ content | safe }}
+    
+    <!-- Scripts ESSENZIALI -->
+    <script src="/assets/vendors/@popperjs/popper.min.js"></script>
+    <script src="/assets/vendors/bootstrap/bootstrap.min.js"></script>
+    <!-- Solo se hai bisogno di browser detection -->
+    <script src="/assets/vendors/is/is.min.js"></script>
+    <!-- Polyfill solo per browser molto vecchi -->
+    <!--<script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>-->
+    
+    <!-- Scripts OPZIONALI -->
+    <!-- Solo se usi FontAwesome -->
+    <script src="/assets/vendors/fontawesome/all.min.js"></script>
+    <script src="/assets/js/theme.min.js"></script>
+    
+    <!-- Fonts (meglio nel head, ma funziona anche qui) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Volkhov:wght@700&display=swap" rel="stylesheet">
+</body>
+</html>
