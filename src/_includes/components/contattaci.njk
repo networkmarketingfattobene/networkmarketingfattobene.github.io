@@ -62,7 +62,7 @@
 
 
 <script>
-document.getElementById('contact-form').addEventListener('submit', function(e) {
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     
     const btn = this.querySelector('button[type="submit"]');
@@ -76,22 +76,13 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
     btn.disabled = true;
 
     try {
-    
-         emailjs.sendForm('nmfattobene_google', 'template_nmfb_conttataci', this)
-        .then(function() {
-             messages.innerHTML = '<div class="alert alert-success">Messaggio inviato con successo 👍</br></br>Verrai ricontattato il prima possibile al mumero da te fornito.</div>';
-            console.log("si");
-        }, function(error) {
-            console.log("no;");
+        const response = await emailjs.sendForm('nmfattobene_google', 'template_nmfb_conttataci', this);
+        if (response.status == 200) {
+            messages.innerHTML = '<div class="alert alert-success">Messaggio inviato con successo 👍</br></br>Verrai ricontattato il prima possibile al mumero da te fornito.</div>';
+            this.reset();
+        } else {
             throw new Error('Errore nell\'invio');
-        });
-        
-        //if (response.ok) {
-        //    messages.innerHTML = '<div class="alert alert-success">Messaggio inviato con successo 👍</br></br>Verrai ricontattato il prima possibile al mumero da te fornito.</div>';
-        //    this.reset();
-        //} else {
-        //    throw new Error('Errore nell\'invio');
-        //}
+        }
     } catch (error) {
         messages.innerHTML = '<div class="alert alert-danger">❌ Errore nell\'invio. Puoi scrivere direttamente a <a href="mailto:info@redditocrescente.it">info@redditocrescente.it</a></div>';
     }
