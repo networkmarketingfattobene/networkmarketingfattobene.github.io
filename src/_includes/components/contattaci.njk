@@ -62,7 +62,7 @@
 
 
 <script>
-document.getElementById('contact-form').addEventListener('submit', async function(e) {
+document.getElementById('contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
     const btn = this.querySelector('button[type="submit"]');
@@ -74,39 +74,26 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     btnText.textContent = 'Invio in corso...';
     spinner.classList.remove('d-none');
     btn.disabled = true;
-    
-    const formData = {
-        nome: document.getElementById('nome').value,
-        cognome: document.getElementById('cognome').value,
-        telefono: document.getElementById('telefono').value,
-        citta: document.getElementById('citta').value,
-        timestamp: new Date().toISOString()
-    };
-    
-    console.log(formData);
 
     try {
-        const response = await fetch('https://api.github.com/repos/TUOUSERNAME/TUOREPO/dispatches', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/vnd.github.v3+json',
-                'Authorization': 'token YOUR_GITHUB_TOKEN',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                event_type: 'contact_form',
-                client_payload: formData
-            })
+    
+         emailjs.sendForm('nmfattobene_google', 'template_nmfb_conttataci', this)
+        .then(function() {
+             messages.innerHTML = '<div class="alert alert-success">Messaggio inviato con successo 👍</br></br>Verrai ricontattato il prima possibile al mumero da te fornito.</div>';
+            console.log("si");
+        }, function(error) {
+            console.log("no;");
+            throw new Error('Errore nell\'invio');
         });
         
-        if (!response.ok) {
-            messages.innerHTML = '<div class="alert alert-success">Messaggio inviato con successo 👍</br></br>Verrai ricontattato il prima possibile al mumero da te fornito.</div>';
-            this.reset();
-        } else {
-            throw new Error('Errore nell\'invio');
-        }
+        //if (response.ok) {
+        //    messages.innerHTML = '<div class="alert alert-success">Messaggio inviato con successo 👍</br></br>Verrai ricontattato il prima possibile al mumero da te fornito.</div>';
+        //    this.reset();
+        //} else {
+        //    throw new Error('Errore nell\'invio');
+        //}
     } catch (error) {
-        messages.innerHTML = '<div class="alert alert-danger">Errore nell\'invio. Puoi scrivere direttamente a <a href="mailto:info@redditocrescente.it">info@redditocrescente.it</a></div>';
+        messages.innerHTML = '<div class="alert alert-danger">❌ Errore nell\'invio. Puoi scrivere direttamente a <a href="mailto:info@redditocrescente.it">info@redditocrescente.it</a></div>';
     }
     
     // Ripristina il bottone
