@@ -11,7 +11,7 @@
         <div class="col-lg-6">
             <div class="text-center mb-5">
                 <h1 class="fw-bold mb-4 fs-7">Vuoi saperne di più?</h1>
-                <p class="mb-5 text-info fw-medium">Contattaci, ti spiegheremo nel dettaglio e in modo semplice come cominciare ad avviare la tua attività in maniera profittevole si da subito.</p>
+                <p class="mb-5 text-info fw-medium">Contattaci, ti spiegheremo nel dettaglio e in modo semplice come cominciare ad avviare la tua attività in maniera profittevole sin da subito.</p>
             </div>
             
             <!-- Form di contatto -->
@@ -41,8 +41,13 @@
                     </div>
                 </div>
                 <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-warning btn-lg px-5">Invia Richiesta</button>
+                    <!--<button type="submit" class="btn btn-warning btn-lg px-5">Invia Richiesta</button>-->
+                    <button type="submit" class="btn btn-warning btn-lg px-5">
+                        <span class="btn-text">Invia Richiesta</span>
+                        <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                    </button>
                 </div>
+                <div id="form-messages" class="col-12 text-center mt-3"></div>
             </form>
         </div>
         <div class="col-lg-6"><img class="img-fluid" src="assets/img/superhero/contact.svg" alt="" /></div>
@@ -55,3 +60,36 @@
 <!-- <section> close ============================-->
 <!-- ============================================-->
 
+
+<script>
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const btn = this.querySelector('button[type="submit"]');
+    const btnText = btn.querySelector('.btn-text');
+    const spinner = btn.querySelector('.spinner-border');
+    const messages = document.getElementById('form-messages');
+    
+    // Mostra loading
+    btnText.textContent = 'Invio in corso...';
+    spinner.classList.remove('d-none');
+    btn.disabled = true;
+
+    try {
+        const response = await emailjs.sendForm('nmfattobene_google', 'template_nmfb_conttataci', this);
+        if (response.status == 200) {
+            messages.innerHTML = '<div class="alert alert-success">Messaggio inviato con successo 👍</br></br>Verrai ricontattato il prima possibile al mumero da te fornito.</div>';
+            this.reset();
+        } else {
+            throw new Error('Errore nell\'invio');
+        }
+    } catch (error) {
+        messages.innerHTML = '<div class="alert alert-danger">❌ Errore nell\'invio. Puoi scrivere direttamente a <a href="mailto:info@redditocrescente.it">info@redditocrescente.it</a></div>';
+    }
+    
+    // Ripristina il bottone
+    btnText.textContent = 'Invia Richiesta';
+    spinner.classList.add('d-none');
+    btn.disabled = false;
+});
+</script>
